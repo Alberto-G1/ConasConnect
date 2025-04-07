@@ -1,0 +1,418 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Resources - Conas Connect{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4">Biotechnology Resources</h1>
+        <p class="lead">Access educational materials, research papers, tools, and more to support your biotechnology journey.</p>
+    </div>
+</section>
+
+<!-- Resource Categories -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="list-group sticky-top" style="top: 2rem;">
+                    <a href="#educational" class="list-group-item list-group-item-action">Educational Materials</a>
+                    <a href="#research" class="list-group-item list-group-item-action">Research Papers</a>
+                    <a href="#tools" class="list-group-item list-group-item-action">Tools & Software</a>
+                    <a href="#protocols" class="list-group-item list-group-item-action">Laboratory Protocols</a>
+                    <a href="#videos" class="list-group-item list-group-item-action">Video Tutorials</a>
+                    <a href="#funding" class="list-group-item list-group-item-action">Funding Resources</a>
+                    <a href="#contribute" class="list-group-item list-group-item-action">Contribute Resources</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- Educational Materials -->
+                <section id="educational" class="mb-5">
+                    <h2 class="section-title mb-4">Educational Materials</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Introduction to Biotechnology</h5>
+                                    <p class="card-text">A comprehensive guide to the fundamentals of biotechnology, including key concepts, techniques, and applications.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-primary">PDF</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Molecular Biology Techniques</h5>
+                                    <p class="card-text">A detailed guide to common molecular biology techniques used in biotechnology research and development.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-primary">PDF</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Biotechnology in Agriculture</h5>
+                                    <p class="card-text">Learn about the applications of biotechnology in agriculture, including crop improvement and pest resistance.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-success">Presentation</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Biotechnology Ethics</h5>
+                                    <p class="card-text">An exploration of ethical considerations in biotechnology research, development, and applications.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-primary">PDF</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-link">View all educational materials <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <!-- Research Papers -->
+                <section id="research" class="mb-5">
+                    <h2 class="section-title mb-4">Research Papers</h2>
+                    <div class="list-group mb-4">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Genetic Modification of Cassava for Enhanced Drought Resistance</h5>
+                                <small>2023</small>
+                            </div>
+                            <p class="mb-1">Authors: J. Mukasa, S. Namukwaya, P. Wasswa</p>
+                            <small class="text-muted">Journal of Agricultural Biotechnology, Vol. 15, Issue 3</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Development of Rapid Diagnostic Tests for Infectious Diseases in Resource-Limited Settings</h5>
+                                <small>2022</small>
+                            </div>
+                            <p class="mb-1">Authors: F. Nakayiwa, R. Semakula, M. Namutebi</p>
+                            <small class="text-muted">Biotechnology and Health Innovation, Vol. 8, Issue 2</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Biofuel Production from Agricultural Waste in Uganda: Opportunities and Challenges</h5>
+                                <small>2022</small>
+                            </div>
+                            <p class="mb-1">Authors: D. Kigozi, A. Nantume, J. Lubega</p>
+                            <small class="text-muted">Renewable Energy and Biotechnology, Vol. 12, Issue 4</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Biotechnological Approaches to Improving Nutritional Content of Staple Crops</h5>
+                                <small>2021</small>
+                            </div>
+                            <p class="mb-1">Authors: P. Namugwanya, T. Ssekitoleko, B. Nabulime</p>
+                            <small class="text-muted">Food and Nutrition Biotechnology, Vol. 9, Issue 1</small>
+                        </a>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-link">View all research papers <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <!-- Tools & Software -->
+                <section id="tools" class="mb-5">
+                    <h2 class="section-title mb-4">Tools & Software</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">BLAST (Basic Local Alignment Search Tool)</h5>
+                                    <p class="card-text">Find regions of similarity between biological sequences. Compare nucleotide or protein sequences to sequence databases.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-info text-dark">Free</span>
+                                        <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi" target="_blank" class="btn btn-sm btn-outline-primary">Access Tool</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">SnapGene Viewer</h5>
+                                    <p class="card-text">Visualize, explore, and analyze DNA sequences. Create plasmid maps and view restriction sites.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-info text-dark">Free</span>
+                                        <a href="https://www.snapgene.com/snapgene-viewer/" target="_blank" class="btn btn-sm btn-outline-primary">Access Tool</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Primer3</h5>
+                                    <p class="card-text">Design PCR primers, hybridization probes, and sequencing primers for your research needs.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-info text-dark">Free</span>
+                                        <a href="http://primer3.ut.ee/" target="_blank" class="btn btn-sm btn-outline-primary">Access Tool</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">MEGA (Molecular Evolutionary Genetics Analysis)</h5>
+                                    <p class="card-text">Conduct sequence alignment, infer phylogenetic trees, and test evolutionary hypotheses.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-info text-dark">Free</span>
+                                        <a href="https://www.megasoftware.net/" target="_blank" class="btn btn-sm btn-outline-primary">Access Tool</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-link">View all tools & software <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <!-- Laboratory Protocols -->
+                <section id="protocols" class="mb-5">
+                    <h2 class="section-title mb-4">Laboratory Protocols</h2>
+                    <div class="list-group mb-4">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">DNA Extraction from Plant Tissue</h5>
+                                <small><i class="bi bi-download"></i></small>
+                            </div>
+                            <p class="mb-1">A step-by-step protocol for extracting high-quality DNA from plant tissues for PCR and sequencing applications.</p>
+                            <small class="text-muted">Last updated: March 2023</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">PCR Amplification of Target Genes</h5>
+                                <small><i class="bi bi-download"></i></small>
+                            </div>
+                            <p class="mb-1">Detailed protocol for PCR amplification of target genes, including primer design, reaction setup, and cycling conditions.</p>
+                            <small class="text-muted">Last updated: January 2023</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Bacterial Transformation Protocol</h5>
+                                <small><i class="bi bi-download"></i></small>
+                            </div>
+                            <p class="mb-1">Protocol for transforming competent E. coli cells with plasmid DNA for protein expression and cloning applications.</p>
+                            <small class="text-muted">Last updated: November 2022</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Protein Extraction and Quantification</h5>
+                                <small><i class="bi bi-download"></i></small>
+                            </div>
+                            <p class="mb-1">Methods for extracting and quantifying proteins from various biological samples for downstream applications.</p>
+                            <small class="text-muted">Last updated: October 2022</small>
+                        </a>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-link">View all laboratory protocols <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <!-- Video Tutorials -->
+                <section id="videos" class="mb-5">
+                    <h2 class="section-title mb-4">Video Tutorials</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video Thumbnail">
+                                <div class="card-body">
+                                    <h5 class="card-title">PCR Technique: Step-by-Step Guide</h5>
+                                    <p class="card-text">Learn how to perform PCR with this detailed tutorial covering all steps from sample preparation to analysis.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-danger">Video</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Watch Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video Thumbnail">
+                                <div class="card-body">
+                                    <h5 class="card-title">Gel Electrophoresis Tutorial</h5>
+                                    <p class="card-text">A comprehensive guide to setting up and running agarose gel electrophoresis for DNA separation.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-danger">Video</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Watch Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video Thumbnail">
+                                <div class="card-body">
+                                    <h5 class="card-title">Cell Culture Techniques</h5>
+                                    <p class="card-text">Learn basic cell culture techniques including aseptic technique, passaging cells, and freezing cells.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-danger">Video</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Watch Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Video Thumbnail">
+                                <div class="card-body">
+                                    <h5 class="card-title">CRISPR-Cas9 Gene Editing</h5>
+                                    <p class="card-text">An introduction to CRISPR-Cas9 gene editing technology and its applications in biotechnology.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-danger">Video</span>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Watch Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-link">View all video tutorials <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <!-- Funding Resources -->
+                <section id="funding" class="mb-5">
+                    <h2 class="section-title mb-4">Funding Resources</h2>
+                    <div class="list-group mb-4">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">National Research Foundation Grants</h5>
+                                <small>Deadline: Various</small>
+                            </div>
+                            <p class="mb-1">Grants for research projects in biotechnology and related fields. Open to researchers at Ugandan institutions.</p>
+                            <small class="text-muted">Funding range: $5,000 - $50,000</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">African Biosciences Challenge Fund</h5>
+                                <small>Deadline: September 30, 2023</small>
+                            </div>
+                            <p class="mb-1">Fellowships and research grants for early-career African scientists in agricultural biosciences.</p>
+                            <small class="text-muted">Funding range: $10,000 - $30,000</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Bill & Melinda Gates Foundation Agricultural Grants</h5>
+                                <small>Deadline: Rolling</small>
+                            </div>
+                            <p class="mb-1">Grants for innovative research in agricultural biotechnology aimed at improving food security in Africa.</p>
+                            <small class="text-muted">Funding range: $50,000 - $500,000</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">TWAS Research Grants</h5>
+                                <small>Deadline: March 31, 2024</small>
+                            </div>
+                            <p class="mb-1">Research grants for individual scientists and research groups in developing countries working in biology and biotechnology.</p>
+                            <small class="text-muted">Funding range: Up to $15,000</small>
+                        </a>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-link">View all funding resources <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <!-- Contribute Resources -->
+                <section id="contribute" class="mb-5">
+                    <h2 class="section-title mb-4">Contribute Resources</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">Have educational materials, research papers, protocols, or other resources to share with the biotechnology community? We welcome contributions from students, researchers, and professionals.</p>
+                            <h5 class="mt-4 mb-3">Submission Guidelines:</h5>
+                            <ul>
+                                <li>All submissions must be original or properly cited with permission from the original author</li>
+                                <li>Educational materials should be clear, accurate, and suitable for the intended audience</li>
+                                <li>Research papers should be published in peer-reviewed journals or preprint servers</li>
+                                <li>Protocols should include detailed methods, materials, and safety considerations</li>
+                                <li>All submissions will be reviewed by our editorial team before publication</li>
+                            </ul>
+                            <div class="text-center mt-4">
+                                <a href="#" class="btn btn-primary">Submit a Resource</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Resource Request -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="section-title mb-4">Can't Find What You're Looking For?</h2>
+                <p class="lead mb-4">If you need specific resources that aren't currently available on our platform, let us know and we'll try to help you find them or add them to our collection.</p>
+                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#resourceRequestModal">
+                    Request a Resource
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Resource Request Modal -->
+<div class="modal fade" id="resourceRequestModal" tabindex="-1" aria-labelledby="resourceRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resourceRequestModalLabel">Request a Resource</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="requestName" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="requestName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="requestEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="requestEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="resourceType" class="form-label">Resource Type</label>
+                        <select class="form-select" id="resourceType" required>
+                            <option value="" selected disabled>Select resource type</option>
+                            <option value="educational">Educational Material</option>
+                            <option value="research">Research Paper</option>
+                            <option value="tool">Tool or Software</option>
+                            <option value="protocol">Laboratory Protocol</option>
+                            <option value="video">Video Tutorial</option>
+                            <option value="funding">Funding Resource</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="resourceDescription" class="form-label">Describe the Resource You Need</label>
+                        <textarea class="form-control" id="resourceDescription" rows="4" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
