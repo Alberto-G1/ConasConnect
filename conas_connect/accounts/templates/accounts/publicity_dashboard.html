@@ -1,0 +1,299 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Publicity Secretary Dashboard - Conas Connect{% endblock %}
+
+{% block content %}
+<section class="py-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile Picture">
+                        <h4>Publicity Secretary</h4>
+                        <p class="text-muted">Communications</p>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-group mb-4">
+                    <a href="#" class="list-group-item list-group-item-action active">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-file-earmark-text me-2"></i> Manage Content
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-calendar-event me-2"></i> Manage Events
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-megaphone me-2"></i> Announcements
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-chat-left-text me-2"></i> Messages
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-gear me-2"></i> Settings
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Publicity Dashboard</h2>
+                    <div>
+                        <button class="btn btn-primary me-2">
+                            <i class="bi bi-plus-lg me-2"></i> New Announcement
+                        </button>
+                        <button class="btn btn-success">
+                            <i class="bi bi-calendar-plus me-2"></i> New Event
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Overview Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-info text-white h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-white-50">Announcements</h6>
+                                        <h2 class="mb-0">12</h2>
+                                    </div>
+                                    <i class="bi bi-megaphone-fill" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a href="#" class="text-white-50 text-decoration-none">View Details</a>
+                                <div class="small text-white"><i class="bi bi-arrow-up me-1"></i>3 this week</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-success text-white h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-white-50">Events</h6>
+                                        <h2 class="mb-0">8</h2>
+                                    </div>
+                                    <i class="bi bi-calendar-event-fill" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a href="#" class="text-white-50 text-decoration-none">View Details</a>
+                                <div class="small text-white"><i class="bi bi-arrow-up me-1"></i>2 upcoming</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-warning text-dark h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-dark-50">Content Uploads</h6>
+                                        <h2 class="mb-0">45</h2>
+                                    </div>
+                                    <i class="bi bi-cloud-upload-fill" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a href="#" class="text-dark-50 text-decoration-none">View Details</a>
+                                <div class="small text-dark"><i class="bi bi-arrow-up me-1"></i>7 this month</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Upload Form -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="bi bi-cloud-upload me-1"></i>
+                        Upload New Content
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="contentTitle" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="contentTitle" placeholder="Enter content title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="contentType" class="form-label">Content Type</label>
+                                <select class="form-select" id="contentType">
+                                    <option selected>Select content type</option>
+                                    <option value="educational">Educational Material</option>
+                                    <option value="announcement">Announcement</option>
+                                    <option value="event">Event Information</option>
+                                    <option value="protocol">Laboratory Protocol</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contentDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="contentDescription" rows="3" placeholder="Enter content description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contentFile" class="form-label">Upload File</label>
+                                <input class="form-control" type="file" id="contentFile">
+                                <div class="form-text">Supported formats: PDF, DOCX, PPTX, JPG, PNG (Max size: 10MB)</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contentVisibility" class="form-label">Visibility</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contentVisibility" id="visibilityAll" value="all" checked>
+                                    <label class="form-check-label" for="visibilityAll">
+                                        All Users
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contentVisibility" id="visibilityMubis" value="mubis">
+                                    <label class="form-check-label" for="visibilityMubis">
+                                        Mubis Students Only
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contentVisibility" id="visibilityPremium" value="premium">
+                                    <label class="form-check-label" for="visibilityPremium">
+                                        Premium Users Only
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Upload Content</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Recent Announcements -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="bi bi-megaphone me-1"></i>
+                        Recent Announcements
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Upcoming Biotechnology Workshop</h5>
+                                    <small>3 days ago</small>
+                                </div>
+                                <p class="mb-1">Join us for a hands-on workshop on DNA extraction and PCR techniques. Limited spots available!</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-muted">Visible to: All Users</small>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">New Study Materials Available</h5>
+                                    <small>1 week ago</small>
+                                </div>
+                                <p class="mb-1">We've uploaded new study materials for Molecular Biology. Check the resources section to access them.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-muted">Visible to: Mubis Students Only</small>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Guest Lecture Series</h5>
+                                    <small>2 weeks ago</small>
+                                </div>
+                                <p class="mb-1">We're excited to announce our upcoming guest lecture series featuring prominent biotechnology researchers.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-muted">Visible to: All Users</small>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary btn-sm">View All Announcements</a>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Events -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="bi bi-calendar-event me-1"></i>
+                        Upcoming Events
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Event Name</th>
+                                        <th>Date</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Biotechnology Workshop</td>
+                                        <td>Aug 18, 2023</td>
+                                        <td>Lab Room 203</td>
+                                        <td><span class="badge bg-success">Confirmed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Guest Lecture: Genomics</td>
+                                        <td>Aug 20, 2023</td>
+                                        <td>Lecture Hall A</td>
+                                        <td><span class="badge bg-success">Confirmed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Networking Event</td>
+                                        <td>Aug 25, 2023</td>
+                                        <td>Student Center</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Career Fair</td>
+                                        <td>Sep 5, 2023</td>
+                                        <td>Main Hall</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary btn-sm">View All Events</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

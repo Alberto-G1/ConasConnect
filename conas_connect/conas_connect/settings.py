@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
+    'main',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,10 @@ TEMPLATES = [
 ]
 
 import os
+
+# Add to your settings.py
+AUTH_USER_MODEL = 'accounts.User'
+
 
 # Configure static files
 STATIC_URL = '/static/'

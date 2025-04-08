@@ -10,4 +10,5 @@ urlpatterns = [
     path('advertise/', views.advertise, name='advertise'),
     path('opportunities/', views.opportunities, name='opportunities'),
     path('contact/', views.contact, name='contact'),
+    path('premium-content/', views.premium_content, name='premium_content'),
 ]
