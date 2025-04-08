@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Register as Mubis Student - Conas Connect{% endblock %}
+{% block title %}Mubis Student Registration - Conas Connect{% endblock %}
 
 {% block content %}
 <section class="py-5">
@@ -8,112 +8,97 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-body p-5">
-                        <h2 class="text-center mb-4">Register as Mubis Student</h2>
-                        <p class="text-center mb-4">Please enter your details including your Mubis number to create an account.</p>
-                        
-                        <form method="post" novalidate>
-                            {% csrf_token %}
-                            
-                            <div class="mb-3">
-                                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
-                                {{ form.username }}
-                                {% if form.username.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.username.errors %}
-                                    {{ error }}
-                                    {% endfor %}
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h4 class="mb-0">Mubis Student Registration</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
-                                {% endif %}
-                            </div>
-                            
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            This registration is for students enrolled in the Makerere University Biotechnology program. You'll need to verify your student email to access all resources for free.
+                        </div>
+                        
+                        <form method="post">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
-                                    {{ form.first_name }}
-                                    {% if form.first_name.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.first_name.errors %}
-                                        {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
-                                    {{ form.last_name }}
-                                    {% if form.last_name.errors %}
-                                    <div class="text-danger">
-                                        {% for error in form.last_name.errors %}
-                                        {{ error }}
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="last_name" required>
                                 </div>
                             </div>
                             
                             <div class="mb-3">
-                                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.email.errors %}
-                                    {{ error }}
-                                    {% endfor %}
+                                <label for="email" class="form-label">Makerere University Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="your.name@students.mak.ac.ug" required>
                                 </div>
-                                {% endif %}
+                                <div class="form-text">Enter your Makerere University student email address</div>
                             </div>
                             
                             <div class="mb-3">
-                                <label for="{{ form.mubis_number.id_for_label }}" class="form-label">Mubis Number</label>
-                                {{ form.mubis_number }}
-                                {% if form.mubis_number.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.mubis_number.errors %}
-                                    {{ error }}
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                                <div class="form-text">Your 10-digit Mubis student identification number</div>
+                                <label for="studentNumber" class="form-label">Student Number</label>
+                                <input type="text" class="form-control" id="studentNumber" name="student_number" placeholder="e.g., 2200XXXXX" required>
                             </div>
                             
                             <div class="mb-3">
-                                <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
-                                {{ form.password1 }}
-                                {% if form.password1.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.password1.errors %}
-                                    {{ error }}
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
+                                <label for="yearOfStudy" class="form-label">Year of Study</label>
+                                <select class="form-select" id="yearOfStudy" name="year_of_study" required>
+                                    <option value="" selected disabled>Select your year of study</option>
+                                    <option value="1">Year 1</option>
+                                    <option value="2">Year 2</option>
+                                    <option value="3">Year 3</option>
+                                    <option value="4">Year 4</option>
+                                </select>
                             </div>
                             
                             <div class="mb-3">
-                                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
-                                {{ form.password2 }}
-                                {% if form.password2.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.password2.errors %}
-                                    {{ error }}
-                                    {% endfor %}
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
                                 </div>
-                                {% endif %}
+                                <div class="form-text">Password must be at least 8 characters long and include a mix of letters, numbers, and special characters</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                                </div>
                             </div>
                             
                             <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                                <label class="form-check-label" for="termsCheck">I agree to the Terms of Service and Privacy Policy</label>
+                                <input type="checkbox" class="form-check-input" id="termsCheck" name="terms_agree" required>
+                                <label class="form-check-label" for="termsCheck">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a></label>
                             </div>
                             
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                                <button type="submit" class="btn btn-primary">Register</button>
+                                <a href="{% url 'register_selection' %}" class="btn btn-outline-secondary">Back to Selection</a>
                             </div>
                         </form>
                         
-                        <div class="text-center mt-4">
-                            <p>Already have an account? <a href="{% url 'login_mubis' %}">Log in</a></p>
-                            <p>Not a Mubis student? <a href="{% url 'register_non_mubis' %}">Register as Non-Mubis</a></p>
+                        <hr>
+                        
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? <a href="{% url 'login_mubis' %}">Login here</a></p>
                         </div>
                     </div>
                 </div>
@@ -121,4 +106,92 @@
         </div>
     </div>
 </section>
+
+<!-- Terms and Conditions Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>1. Account Registration</h5>
+                <p>By registering for a Conas Connect account, you agree to provide accurate and complete information about yourself. You are responsible for maintaining the confidentiality of your account credentials.</p>
+                
+                <h5>2. User Conduct</h5>
+                <p>You agree to use Conas Connect services in compliance with all applicable laws and regulations. You will not engage in any activity that disrupts or interferes with the platform's functionality.</p>
+                
+                <h5>3. Content Usage</h5>
+                <p>The educational resources provided on Conas Connect are for personal, non-commercial use only. You may not redistribute, sell, or publish any content from the platform without explicit permission.</p>
+                
+                <h5>4. Privacy Policy</h5>
+                <p>Your use of Conas Connect is also governed by our Privacy Policy, which outlines how we collect, use, and protect your personal information.</p>
+                
+                <h5>5. Account Termination</h5>
+                <p>Conas Connect reserves the right to suspend or terminate your account if you violate these terms or engage in inappropriate behavior on the platform.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    });
+    
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const email = document.getElementById('email').value;
+        
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            alert('Passwords do not match!');
+            return;
+        }
+        
+        // Check if email is a valid Makerere University email
+        if (!email.endsWith('@students.mak.ac.ug')) {
+            event.preventDefault();
+            alert('Please use a valid Makerere University student email address (@students.mak.ac.ug)');
+            return;
+        }
+        
+        // Check password strength
+        if (password.length < 8) {
+            event.preventDefault();
+            alert('Password must be at least 8 characters long');
+            return;
+        }
+        
+        // Basic password strength check
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        
+        if (!(hasLetter && hasNumber && hasSpecial)) {
+            event.preventDefault();
+            alert('Password must include letters, numbers, and special characters');
+            return;
+        }
+    });
+</script>
 {% endblock %}
