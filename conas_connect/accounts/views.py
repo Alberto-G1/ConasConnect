@@ -10,6 +10,7 @@ from .models import CustomUser, UserProfile
 from .forms import CustomUserCreationForm, UserProfileForm, MubisStudentForm, NonMubisStudentForm
 from content.models import Content
 from payments.models import Payment, Subscription
+# from .error_views import custom_404, custom_500
 
 def home(request):
     """Home page view"""
@@ -211,3 +212,12 @@ def user_list(request):
     users = CustomUser.objects.all().order_by('-created_at')
     context = {'users': users}
     return render(request, 'accounts/user_list.html', context)
+
+
+def custom_404(request, exception):
+    """Custom 404 error page"""
+    return render(request, 'errors/404.html', status=404)
+
+def custom_500(request):
+    """Custom 500 error page"""
+    return render(request, 'errors/500.html', status=500)
