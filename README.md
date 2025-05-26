@@ -1,78 +1,332 @@
-# ConasConnect
+Here’s a **cleanly organized, code-formatted rewrite** of your `README.md` content for **Conas Connect**, without altering the original information but improving structure, formatting, and clarity using Markdown best practices:
 
-# Study System Authentication and Authorization Guide
+````markdown
+# 📘 Conas Connect - Educational Platform
 
-## Overview
-This document outlines how to implement authentication and authorization functionalities for ConasConnect in Django, accommodating three user roles: President, Publicity staff, and Students.
+A comprehensive Django-based educational platform designed for students, lecturers, and administrators with role-based access control and premium content management.
 
-## User Roles and Models
-- **Custom User Model**: Extend Django’s built-in `User` model to include fields like `mubis_special_no` for Mubis students.
-- **User Roles**: Use Django’s `Group` and `Permission` system to manage roles:
-  - **President**: Has permissions to upload and delete content.
-  - **Publicity Secretary**: Also has permissions to upload and delete content.
-  - **Students**: Divided into Mubis and non-Mubis categories.
+---
 
-## User Registration and Login
-- **Registration**:
-  - **Mubis Students**: Register with name, email, and `mubis_special_no`.
-  - **Non-Mubis Students**: Register with name and email only.
-- **Login**: Use Django’s authentication system. President and Publicity Secretary will log in directly without registration.
+## 🌟 Features
 
-## Role-Based Access Control
-- **Permissions**: Assign permissions using Django’s `Permission` system:
-  - President and Publicity Secretary: Can upload and delete content.
-  - Mubis Students: Access exclusive content (paid features).
-  - Non-Mubis Students: See payment options for exclusive features.
-- **Middleware**: Implement middleware to redirect users to appropriate interfaces based on their role.
+### 🔐 User Management
+- **Multi-role System:** Students, Lecturers, and Presidents  
+- **Student Types:** MUBIS (free premium access) and Non-MUBIS (paid access)  
+- **MUBIS Number:** Automatic unique 7-digit ID generation  
+- **User Profiles:** Extended info and profile pictures  
+- **Authentication:** Secure login/logout with role-based redirects  
 
-## User Interface Customization
-- **Templates**: Create separate templates for different roles:
-  - **Mubis Students**: Access exclusive content.
-  - **Non-Mubis Students**: See payment options.
-  - **President and Publicity Secretary**: Content management interface.
-- **Dynamic Content**: Use Django’s template tags to display content based on user roles.
+### 📚 Content Management
+- **Content Types:** Free and Premium  
+- **Supported Files:** Documents, images, video URLs  
+- **Categories:** Structured classification  
+- **Comments System:** Engage users on content  
+- **View Tracking:** Analytics and stats  
+- **Search Functionality:** Advanced discovery tools  
 
-## Payment Integration
-- **Payment Options**: Integrate a payment gateway (e.g., Stripe, PayPal) for non-Mubis students.
-- **Role Updates**: After payment, update the user’s role to grant access to exclusive content.
+### 💳 Payment System
+- **Plans:** Monthly, Quarterly, Annual  
+- **Payment Tracking:** History and status  
+- **Subscription Management:** Auto-renewal, cancel options  
+- **Access Control:** Restrict premium content  
+- **Revenue Analytics:** Admin-level statistics  
 
-## Content Management
-- **Upload and Delete**: Allow President and Publicity Secretary to manage content via Django’s admin or custom views.
-- **Authorization Checks**: Use Django’s `@permission_required` decorator to restrict access.
+### 🛠️ Administrative Features
+- **Dashboard Analytics:** Users, content, payments  
+- **User Management:** Admin account controls  
+- **Content Moderation:** Approve/reject submissions  
+- **Payment Oversight:** View all transactions/subscriptions  
 
-## Implementation Steps
-1. **Define User Roles and Models**:
-   - Create a custom user model with necessary fields.
-   - Set up groups and permissions for each role.
+---
 
-2. **User Registration and Login**:
-   - Implement registration forms for Mubis and non-Mubis students.
-   - Use Django’s authentication system for login.
+## 🏗️ Project Structure
 
-3. **Role-Based Access Control**:
-   - Assign permissions to groups.
-   - Implement middleware for role-based redirection.
+```text
+conas_connect/
+├── conas_connect/          # Project settings
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── accounts/               # User system
+│   ├── models.py
+│   ├── views.py
+│   ├── forms.py
+│   ├── urls.py
+│   ├── admin.py
+│   ├── signals.py
+│   ├── utils.py
+│   ├── decorators.py
+│   └── management/
+├── content/                # Content app
+│   ├── models.py
+│   ├── views.py
+│   ├── forms.py
+│   ├── urls.py
+│   ├── admin.py
+│   └── utils.py
+├── payments/               # Payment app
+│   ├── models.py
+│   ├── views.py
+│   ├── forms.py
+│   ├── urls.py
+│   ├── admin.py
+│   └── utils.py
+├── static/
+├── media/
+├── templates/
+├── requirements.txt
+├── manage.py
+├── start_server.sh
+├── start_server.bat
+└── test_setup.py
+````
 
-4. **User Interface Customization**:
-   - Create templates for each role.
-   - Use template tags for dynamic content display.
+---
 
-5. **Payment Integration**:
-   - Set up payment gateway integration.
-   - Update user roles after successful payments.
+## 🚀 Quick Start
 
-6. **Content Management**:
-   - Allow authorized users to upload and delete content.
-   - Use decorators to enforce permissions.
+### ✅ Prerequisites
 
-## Example Workflow
-- **Mubis Student**: Registers with special number, gains access to exclusive content.
-- **Non-Mubis Student**: Registers with basic info, sees payment options, upgrades after payment.
-- **President/Publicity Secretary**: Logs in, manages content.
+* Python 3.8+
+* pip
+* Virtual Environment (recommended)
 
-## Notes
-- Use Django’s built-in tools for authentication and permissions.
-- Customize templates and middleware to fit specific needs.
-- Ensure secure handling of payment information.
+### 🧰 Installation
 
-This guide provides a structured understanding of our authentication system.
+```bash
+# Clone repo
+git clone <repository-url>
+cd conas_connect
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Linux/Mac
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Apply migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# Setup initial data
+python manage.py setup_initial_data
+
+# (Optional) Create superuser
+python manage.py createsuperuser
+
+# Run development server
+python manage.py runserver
+```
+
+### ⚡ Quick Setup (Automated)
+
+```bash
+# Linux/Mac
+chmod +x start_server.sh
+./start_server.sh
+
+# Windows
+start_server.bat
+```
+
+---
+
+## 🔐 Default Credentials
+
+After running `setup_initial_data`:
+
+* **Username:** `admin`
+* **Password:** `admin123`
+* **Role:** `President` (full access)
+
+---
+
+## 👤 User Roles & Permissions
+
+| Role                | Access                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
+| Student (MUBIS)     | ✅ All content incl. premium <br> ✅ Comments <br> ✅ Analytics <br> ❌ Upload <br> ❌ Admin functions      |
+| Student (Non-MUBIS) | ✅ Free content only <br> ✅ Comments <br> ✅ Subscription purchases <br> ❌ Upload <br> ❌ Admin functions |
+| Lecturer            | ✅ All student rights <br> ✅ Upload/manage own content <br> ✅ Create categories <br> ❌ Manage users     |
+| President           | ✅ Full system access <br> ✅ User/content/payment management <br> ✅ All admin features                  |
+
+---
+
+## 💳 Payment Plans
+
+| Plan              | Duration | Price   | Features              |
+| ----------------- | -------- | ------- | --------------------- |
+| Monthly Premium   | 30 days  | \$10.00 | Full premium access   |
+| Quarterly Premium | 90 days  | \$25.00 | Premium + savings     |
+| Annual Premium    | 365 days | \$80.00 | Premium + max savings |
+
+---
+
+## 🛠️ API Endpoints
+
+### 🔑 Authentication
+
+* `POST /register/` – Register user
+* `POST /login/` – Login
+* `POST /logout/` – Logout
+
+### 📦 Content
+
+* `GET /content/` – List content
+* `GET /content/<id>/` – Content details
+* `POST /content/create/` – Create content *(Lecturer+)*
+* `PUT /content/<id>/edit/` – Edit content *(Author/President)*
+* `DELETE /content/<id>/delete/` – Delete content *(Author/President)*
+
+### 💰 Payments
+
+* `GET /payments/plans/` – List plans
+* `POST /payments/initiate/<plan_id>/` – Start payment
+* `POST /payments/complete/<transaction_id>/` – Complete payment
+* `GET /payments/history/` – View history
+
+### 🧑‍💼 Admin (President only)
+
+* `GET /admin-panel/dashboard/` – Admin dashboard
+* `GET /admin-panel/users/` – User management
+* `GET /api/accounts/user-stats/` – User stats
+* `GET /api/content/content-stats/` – Content stats
+
+---
+
+## 🗄️ Database Models
+
+### 👥 User Models
+
+* `CustomUser`: Django user with roles
+* `UserProfile`: Extra user info
+
+### 📦 Content Models
+
+* `Category`: Content categories
+* `Content`: Content with metadata
+* `Comment`: Comments on content
+* `ContentView`: Track views
+
+### 💳 Payment Models
+
+* `PaymentPlan`: Subscription options
+* `Payment`: Transaction details
+* `Subscription`: Access tracking
+
+---
+
+## 🔧 Configuration
+
+### 📄 Environment Variables
+
+Create a `.env` file:
+
+```env
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# (Optional) Database
+DATABASE_URL=sqlite:///db.sqlite3
+
+# (Optional) Email settings
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+EMAIL_USE_TLS=True
+```
+
+### 📁 Media Files
+
+* Upload Path: `media/`
+* Profile Pictures: `media/profile_pics/`
+* Content Files: `media/content_files/`
+* Content Images: `media/content_images/`
+
+---
+
+## 🧪 Testing
+
+```bash
+# Verify setup
+python test_setup.py
+
+# Run tests
+python manage.py test
+```
+
+---
+
+## 📊 Management Commands
+
+```bash
+# Initialize system with default data
+python manage.py setup_initial_data
+```
+
+Creates:
+
+* Default admin user
+* Sample categories
+* Payment plans
+
+---
+
+## 🚀 Deployment
+
+* Set `DEBUG=False`
+
+* Use PostgreSQL or other production DB
+
+* Collect static files:
+
+  ```bash
+  python manage.py collectstatic
+  ```
+
+* Configure email backend, secret key, and `ALLOWED_HOSTS`
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create a feature branch
+3. Make changes
+4. Add tests
+5. Submit a PR
+
+---
+
+## 📝 License
+
+Licensed under the **MIT License** – see `LICENSE` file.
+
+---
+
+## 🆘 Support
+
+* Open an issue in the repo
+* Contact the dev team
+* Read the documentation
+
+---
+
+## 🔄 Version History
+
+**v1.0.0**
+
+* Core user management
+* Content system
+* Payment integration
+* Admin features
