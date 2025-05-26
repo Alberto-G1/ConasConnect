@@ -1,5 +1,3 @@
-Here’s a **cleanly organized, code-formatted rewrite** of your `README.md` content for **Conas Connect**, without altering the original information but improving structure, formatting, and clarity using Markdown best practices:
-
 ````markdown
 # 📘 Conas Connect - Educational Platform
 
