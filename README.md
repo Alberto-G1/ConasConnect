@@ -1,4 +1,3 @@
-````markdown
 # 📘 Conas Connect - Educational Platform
 
 A comprehensive Django-based educational platform designed for students, lecturers, and administrators with role-based access control and premium content management.
