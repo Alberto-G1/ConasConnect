@@ -1,0 +1,858 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load user_tags %}
+
+{% block title %}President Dashboard - Conas Connect{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-danger text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-1">
+                                <i class="fas fa-crown me-2"></i>President Dashboard
+                            </h2>
+                            <p class="mb-0">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+                            <p class="mb-0 opacity-75">Administrative Control Panel</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile" class="profile-picture">
+                            {% else %}
+                                <i class="fas fa-user-circle" style="font-size: 5rem;"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Overview Stats -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="stats-card bg-primary text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-number">{{ system_stats.total_users|default:0 }}</div>
+                <div class="stats-label">Total Users</div>
+                <div class="stats-change">
+                    <i class="fas fa-arrow-up"></i> +{{ system_stats.new_users_this_month|default:0 }} this month
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="stats-card bg-success text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stats-number">{{ system_stats.total_students|default:0 }}</div>
+                <div class="stats-label">Students</div>
+                <div class="stats-breakdown">
+                    MUBIS: {{ system_stats.mubis_students|default:0 }} | Non-MUBIS: {{ system_stats.non_mubis_students|default:0 }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="stats-card bg-info text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="stats-number">{{ system_stats.total_lecturers|default:0 }}</div>
+                <div class="stats-label">Lecturers</div>
+                <div class="stats-change">
+                    <i class="fas fa-check-circle"></i> {{ system_stats.active_lecturers|default:0 }} active
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-3">
+            <div class="stats-card bg-warning text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stats-number">{{ system_stats.total_content|default:0 }}</div>
+                <div class="stats-label">Content Items</div>
+                <div class="stats-breakdown">
+                    Free: {{ system_stats.free_content|default:0 }} | Premium: {{ system_stats.premium_content|default:0 }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Financial Overview -->
+    <div class="row mb-4">
+        <div class="col-xl-4 col-md-6 mb-3">
+            <div class="stats-card bg-gradient-success text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stats-number">${{ financial_stats.total_revenue|default:0|floatformat:2 }}</div>
+                <div class="stats-label">Total Revenue</div>
+                <div class="stats-change">
+                    <i class="fas fa-arrow-up"></i> ${{ financial_stats.monthly_revenue|default:0|floatformat:2 }} this month
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-4 col-md-6 mb-3">
+            <div class="stats-card bg-gradient-primary text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="stats-number">{{ financial_stats.active_subscriptions|default:0 }}</div>
+                <div class="stats-label">Active Subscriptions</div>
+                <div class="stats-change">
+                    <i class="fas fa-percentage"></i> {{ financial_stats.subscription_rate|default:0|floatformat:1 }}% conversion rate
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-4 col-md-6 mb-3">
+            <div class="stats-card bg-gradient-info text-white">
+                <div class="stats-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="stats-number">{{ financial_stats.total_transactions|default:0 }}</div>
+                <div class="stats-label">Total Transactions</div>
+                <div class="stats-change">
+                    <i class="fas fa-check"></i> {{ financial_stats.successful_transactions|default:0 }} successful
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Administrative Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'accounts_admin:user_management' %}" class="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-users fa-2x mb-2"></i>
+                                <span>Manage Users</span>
+                                <small class="text-muted">View, edit, and manage all users</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'content:admin_content' %}" class="btn btn-outline-success w-100 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-file-alt fa-2x mb-2"></i>
+                                <span>Content Management</span>
+                                <small class="text-muted">Review and manage content</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'payments:admin_payments' %}" class="btn btn-outline-warning w-100 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-dollar-sign fa-2x mb-2"></i>
+                                <span>Payment Overview</span>
+                                <small class="text-muted">Monitor payments and subscriptions</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'accounts_admin:system_settings' %}" class="btn btn-outline-info w-100 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-cog fa-2x mb-2"></i>
+                                <span>System Settings</span>
+                                <small class="text-muted">Configure system parameters</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'accounts_admin:reports' %}" class="btn btn-outline-secondary w-100 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-chart-bar fa-2x mb-2"></i>
+                                <span>Reports</span>
+                                <small class="text-muted">Generate system reports</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{% url 'accounts_admin:audit_logs' %}" class="btn btn-outline-dark w-100 h-100 d-flex flex-column justify-content-center">
+                                <i class="fas fa-history fa-2x mb-2"></i>
+                                <span>Audit Logs</span>
+                                <small class="text-muted">View system activity logs</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent System Activity -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-activity me-2"></i>Recent System Activity
+                    </h5>
+                    <button class="btn btn-sm btn-outline-primary" onclick="refreshActivity()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <div class="card-body">
+                    {% if recent_activities %}
+                        <div class="timeline">
+                            {% for activity in recent_activities %}
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-{{ activity.type }}">
+                                        <i class="fas {{ activity.icon }}"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6 class="timeline-title">{{ activity.title }}</h6>
+                                        <p class="timeline-description">{{ activity.description }}</p>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>{{ activity.timestamp|timesince }} ago
+                                            {% if activity.user %}
+                                                | <i class="fas fa-user me-1"></i>{{ activity.user.get_full_name|default:activity.user.username }}
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No recent activity to display.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div class="col-lg-4">
+            <!-- System Health -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-heartbeat me-2"></i>System Health
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Server Status</span>
+                            <span class="badge bg-success">Online</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Database</span>
+                            <span class="badge bg-success">Healthy</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Storage Usage</span>
+                            <span class="text-muted">{{ system_health.storage_usage|default:0 }}%</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-warning" style="width: 8px">{{ system_health.storage_usage|default:0 }}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-0">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>Active Users</span>
+                            <span class="text-muted">{{ system_health.active_users|default:0 }}</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-info" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pending Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Pending Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if pending_actions %}
+                        {% for action in pending_actions %}
+                            <div class="alert alert-{{ action.priority }} alert-dismissible fade show" role="alert">
+                                <i class="fas {{ action.icon }} me-2"></i>
+                                <strong>{{ action.title }}</strong><br>
+                                <small>{{ action.description }}</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-3">
+                            <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                            <p class="text-muted mb-0">No pending actions</p>
+                            <small class="text-muted">All systems running smoothly</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Quick Insights
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6 mb-3">
+                            <div class="border-end">
+                                <h4 class="text-primary mb-1">{{ insights.daily_signups|default:0 }}</h4>
+                                <small class="text-muted">New Signups Today</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h4 class="text-success mb-1">{{ insights.daily_revenue|default:0|floatformat:0 }}</h4>
+                            <small class="text-muted">Revenue Today ($)</small>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border-end">
+                                <h4 class="text-info mb-1">{{ insights.content_uploads|default:0 }}</h4>
+                                <small class="text-muted">Content Uploaded</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <h4 class="text-warning mb-1">{{ insights.active_sessions|default:0 }}</h4>
+                            <small class="text-muted">Active Sessions</small>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="text-center">
+                        <h6 class="mb-2">Platform Growth</h6>
+                        <div class="progress mb-2" style="height: 10px;">
+                            <div class="progress-bar bg-gradient-primary" style="width: 8px">{{ insights.growth_percentage|default:0 }}%</div>
+                        </div>
+                        <small class="text-muted">{{ insights.growth_percentage|default:0 }}% growth this month</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Registrations -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>Recent Registrations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_registrations %}
+                        {% for user in recent_registrations %}
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    {% if user.profile_picture %}
+                                        <img src="{{ user.profile_picture.url }}" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
+                                            {{ user.first_name|first|default:user.username|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1">{{ user.get_full_name|default:user.username }}</h6>
+                                    <small class="text-muted">
+                                        <i class="fas fa-user-circle me-1"></i>{{ user|user_role_display }}
+                                        <span class="ms-2">
+                                            <i class="fas fa-clock me-1"></i>{{ user.date_joined|timesince }} ago
+                                        </span>
+                                    </small>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <a href="{% url 'accounts_admin:user_detail' user.id %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="text-center">
+                            <a href="{% url 'accounts_admin:user_management' %}" class="btn btn-outline-primary btn-sm">
+                                View All Users
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-3">
+                            <i class="fas fa-users text-muted fa-2x mb-2"></i>
+                            <p class="text-muted mb-0">No recent registrations</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.stats-card {
+    padding: 1.5rem;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.stats-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.stats-change, .stats-breakdown {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 2rem;
+    width: 2px;
+    height: calc(100% + 1rem);
+    background: #dee2e6;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.timeline-title {
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.timeline-description {
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #17a2b8, #117a8b);
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(135deg, #dc3545, #bd2130);
+}
+
+.profile-picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .timeline {
+        padding-left: 1.5rem;
+    }
+    
+    .timeline-marker {
+        left: -1.5rem;
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .timeline-item:not(:last-child)::before {
+        left: -1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate stats numbers
+    animateStats();
+    
+    // Load real-time data
+    loadDashboardData();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadDashboardData, 30000);
+    
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+function animateStats() {
+    const statsNumbers = document.querySelectorAll('.stats-number');
+    statsNumbers.forEach(stat => {
+        const text = stat.textContent;
+        const hasSymbol = text.includes('$');
+        const target = parseFloat(text.replace(/[$,]/g, '')) || 0;
+        let current = 0;
+        const increment = target / 50;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            let displayValue = Math.floor(current);
+            if (hasSymbol) {
+                displayValue = '$' + displayValue.toLocaleString();
+            } else {
+                displayValue = displayValue.toLocaleString();
+            }
+            stat.textContent = displayValue;
+        }, 30);
+    });
+}
+
+function loadDashboardData() {
+    fetch('{% url "accounts_api:president_dashboard_data" %}')
+        .then(response => response.json())
+        .then(data => {
+            updateDashboardData(data);
+        })
+        .catch(error => {
+            console.error('Error loading dashboard data:', error);
+        });
+}
+
+function updateDashboardData(data) {
+    // Update system health indicators
+    if (data.system_health) {
+        updateSystemHealth(data.system_health);
+    }
+    
+    // Update real-time stats
+    if (data.real_time_stats) {
+        updateRealTimeStats(data.real_time_stats);
+    }
+    
+    // Update pending actions
+    if (data.pending_actions) {
+        updatePendingActions(data.pending_actions);
+    }
+}
+
+function updateSystemHealth(health) {
+    // Update storage usage
+    const storageBar = document.querySelector('.progress-bar.bg-warning');
+    if (storageBar && health.storage_usage) {
+        storageBar.style.width = health.storage_usage + '%';
+        storageBar.parentElement.previousElementSibling.querySelector('.text-muted').textContent = health.storage_usage + '%';
+    }
+    
+    // Update active users
+    const activeUsersSpan = document.querySelector('.text-muted');
+    if (activeUsersSpan && health.active_users) {
+        // Find the correct span for active users
+        const spans = document.querySelectorAll('.text-muted');
+        spans.forEach(span => {
+            if (span.textContent.includes('Active Users')) {
+                span.textContent = health.active_users;
+            }
+        });
+    }
+}
+
+function updateRealTimeStats(stats) {
+    // Update daily signups
+    const dailySignups = document.querySelector('h4.text-primary');
+    if (dailySignups && stats.daily_signups !== undefined) {
+        dailySignups.textContent = stats.daily_signups;
+    }
+    
+    // Update daily revenue
+    const dailyRevenue = document.querySelector('h4.text-success');
+    if (dailyRevenue && stats.daily_revenue !== undefined) {
+        dailyRevenue.textContent = Math.floor(stats.daily_revenue);
+    }
+    
+    // Update active sessions
+    const activeSessions = document.querySelector('h4.text-warning');
+    if (activeSessions && stats.active_sessions !== undefined) {
+        activeSessions.textContent = stats.active_sessions;
+    }
+}
+
+function updatePendingActions(actions) {
+    const pendingContainer = document.querySelector('.card-body');
+    if (!pendingContainer) return;
+    
+    // Clear existing alerts
+    const existingAlerts = pendingContainer.querySelectorAll('.alert');
+    existingAlerts.forEach(alert => alert.remove());
+    
+    if (actions.length === 0) {
+        pendingContainer.innerHTML = `
+            <div class="text-center py-3">
+                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                <p class="text-muted mb-0">No pending actions</p>
+                <small class="text-muted">All systems running smoothly</small>
+            </div>
+        `;
+    } else {
+        actions.forEach(action => {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${action.priority} alert-dismissible fade show`;
+            alertDiv.setAttribute('role', 'alert');
+            alertDiv.innerHTML = `
+                <i class="fas ${action.icon} me-2"></i>
+                <strong>${action.title}</strong><br>
+                <small>${action.description}</small>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            pendingContainer.appendChild(alertDiv);
+        });
+    }
+}
+
+function refreshActivity() {
+    const refreshBtn = document.querySelector('button[onclick="refreshActivity()"]');
+    const icon = refreshBtn.querySelector('i');
+    
+    // Add spinning animation
+    icon.classList.add('fa-spin');
+    refreshBtn.disabled = true;
+    
+    // Simulate refresh (replace with actual API call)
+    setTimeout(() => {
+        icon.classList.remove('fa-spin');
+        refreshBtn.disabled = false;
+        
+        // Show success message
+        showAlert('Activity refreshed successfully!', 'success');
+        
+        // Reload the page to get fresh data
+        window.location.reload();
+    }, 1000);
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(alertDiv);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 5000);
+}
+
+// Export data functionality
+function exportData(type) {
+    const exportBtn = document.querySelector(`[onclick="exportData('${type}')"]`);
+    if (exportBtn) {
+        exportBtn.disabled = true;
+        exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Exporting...';
+    }
+    
+    fetch(`{% url "accounts_api:export_data" %}?type=${type}`, {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.blob();
+        }
+        throw new Error('Export failed');
+    })
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${type}_export_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        showAlert('Data exported successfully!', 'success');
+    })
+    .catch(error => {
+        showAlert('Export failed. Please try again.', 'danger');
+    })
+    .finally(() => {
+        if (exportBtn) {
+            exportBtn.disabled = false;
+            exportBtn.innerHTML = `<i class="fas fa-download me-2"></i>Export ${type}`;
+        }
+    });
+}
+
+// System maintenance functions
+function performMaintenance(action) {
+    if (!confirm(`Are you sure you want to perform ${action}? This action cannot be undone.`)) {
+        return;
+    }
+    
+    fetch('{% url "accounts_api:system_maintenance" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({ action: action })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAlert(data.message, 'success');
+            // Refresh dashboard after maintenance
+            setTimeout(() => window.location.reload(), 2000);
+        } else {
+            showAlert(data.error || 'Maintenance action failed', 'danger');
+        }
+    })
+    .catch(error => {
+        showAlert('Network error occurred', 'danger');
+    });
+}
+
+// Real-time notifications
+function initializeNotifications() {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        // Setup WebSocket or Server-Sent Events for real-time notifications
+        setupRealTimeUpdates();
+    } else if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                setupRealTimeUpdates();
+            }
+        });
+    }
+}
+
+function setupRealTimeUpdates() {
+    // This would typically connect to a WebSocket or SSE endpoint
+    // For now, we'll use polling
+    setInterval(() => {
+        checkForUpdates();
+    }, 60000); // Check every minute
+}
+
+function checkForUpdates() {
+    fetch('{% url "accounts_api:check_updates" %}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.notifications && data.notifications.length > 0) {
+                data.notifications.forEach(notification => {
+                    showNotification(notification);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error checking for updates:', error);
+        });
+}
+
+function showNotification(notification) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(notification.title, {
+            body: notification.message,
+            icon: '/static/images/logo.png',
+            tag: notification.id
+        });
+    }
+    
+    // Also show in-app notification
+    showAlert(notification.message, notification.type || 'info');
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeNotifications();
+});
+</script>
+{% endblock %}

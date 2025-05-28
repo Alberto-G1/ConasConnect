@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load user_tags %}
+
+{% block title %}Dashboard - Conas Connect{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-1">Welcome back, {{ user.get_full_name|default:user.username }}!</h2>
+                            <p class="mb-0">
+                                <i class="fas fa-user-circle me-2"></i>{{ user|user_role_display }}
+                                {% if user.role == 'student' %}
+                                    {% if user.student_type == 'mubis' %}
+                                        <span class="badge bg-warning ms-2">MUBIS: {{ user.mubis_number }}</span>
+                                    {% else %}
+                                        <span class="badge bg-info ms-2">Non-MUBIS Student</span>
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile" class="profile-picture">
+                            {% else %}
+                                <i class="fas fa-user-circle" style="font-size: 5rem;"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        {% if user.role == 'student' %}
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-primary">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stats-number text-primary">{{ user_stats.content_viewed|default:0 }}</div>
+                    <div class="stats-label">Content Viewed</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-success">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stats-number text-success">{{ user_stats.comments_made|default:0 }}</div>
+                    <div class="stats-label">Comments Made</div>
+                </div>
+            </div>
+            {% if user.student_type == 'non_mubis' %}
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stats-card">
+                        <div class="stats-icon text-warning">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="stats-number text-warning">
+                            {% if user.has_active_subscription %}Active{% else %}Inactive{% endif %}
+                        </div>
+                        <div class="stats-label">Premium Status</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stats-card">
+                        <div class="stats-icon text-info">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="stats-number text-info">${{ user_stats.total_payments|default:0 }}</div>
+                        <div class="stats-label">Total Payments</div>
+                    </div>
+                </div>
+            {% endif %}
+        {% elif user.role == 'lecturer' %}
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-primary">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="stats-number text-primary">{{ user_stats.content_uploaded|default:0 }}</div>
+                    <div class="stats-label">Content Uploaded</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-success">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stats-number text-success">{{ user_stats.total_views|default:0 }}</div>
+                    <div class="stats-label">Total Views</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-warning">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stats-number text-warning">{{ user_stats.total_comments|default:0 }}</div>
+                    <div class="stats-label">Comments Received</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-info">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="stats-number text-info">{{ user_stats.premium_content|default:0 }}</div>
+                    <div class="stats-label">Premium Content</div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+            <!-- Recent Activity -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-clock me-2"></i>Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_activities %}
+                        <div class="list-group list-group-flush">
+                            {% for activity in recent_activities %}
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas {{ activity.icon }} text-{{ activity.color }} fa-lg"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1">{{ activity.description }}</p>
+                                            <small class="text-muted">{{ activity.timestamp|timesince }} ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No recent activity to show.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if user.role == 'student' %}
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'content:list' %}" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-book me-2"></i>Browse Content
+                                </a>
+                            </div>
+                            {% if user.student_type == 'non_mubis' and not user.has_active_subscription %}
+                                <div class="col-md-6 mb-3">
+                                    <a href="{% url 'payments:plans' %}" class="btn btn-outline-warning w-100">
+                                        <i class="fas fa-crown me-2"></i>Get Premium
+                                    </a>
+                                </div>
+                            {% endif %}
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'accounts:profile' %}" class="btn btn-outline-info w-100">
+                                    <i class="fas fa-user-edit me-2"></i>Edit Profile
+                                </a>
+                            </div>
+                            {% if user.student_type == 'non_mubis' %}
+                                <div class="col-md-6 mb-3">
+                                    <a href="{% url 'payments:history' %}" class="btn btn-outline-secondary w-100">
+                                        <i class="fas fa-history me-2"></i>Payment History
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% elif user.role == 'lecturer' %}
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'content:create' %}" class="btn btn-outline-success w-100">
+                                    <i class="fas fa-plus me-2"></i>Upload Content
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'content:my_content' %}" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-folder me-2"></i>My Content
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'accounts:profile' %}" class="btn btn-outline-info w-100">
+                                    <i class="fas fa-user-edit me-2"></i>Edit Profile
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'content:analytics' %}" class="btn btn-outline-warning w-100">
+                                    <i class="fas fa-chart-bar me-2"></i>Analytics
+                                </a>
+                            </div>
+                        {% elif user.role == 'president' %}
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'accounts_admin:admin_dashboard' %}" class="btn btn-outline-danger w-100">
+                                    <i class="fas fa-cog me-2"></i>Admin Panel
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'content:list' %}" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-book me-2"></i>All Content
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'accounts_admin:user_management' %}" class="btn btn-outline-success w-100">
+                                    <i class="fas fa-users me-2"></i>Manage Users
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{% url 'payments:admin_payments' %}" class="btn btn-outline-warning w-100">
+                                    <i class="fas fa-dollar-sign me-2"></i>Payment Overview
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div class="col-lg-4">
+            <!-- Profile Summary -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user me-2"></i>Profile Summary
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="Profile" class="profile-picture mb-3">
+                    {% else %}
+                        <i class="fas fa-user-circle text-muted mb-3" style="font-size: 5rem;"></i>
+                    {% endif %}
+                    <h5>{{ user.get_full_name|default:user.username }}</h5>
+                    <p class="text-muted mb-2">{{ user|user_role_display }}</p>
+                    {% if user.email %}
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-1"></i>{{ user.email }}
+                        </p>
+                    {% endif %}
+                    <p class="text-muted mb-3">
+                        <i class="fas fa-calendar me-1"></i>Joined {{ user.date_joined|date:"M Y" }}
+                    </p>
+                    <a href="{% url 'accounts:profile' %}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit me-1"></i>Edit Profile
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Subscription Status (for Non-MUBIS students) -->
+            {% if user.role == 'student' and user.student_type == 'non_mubis' %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-crown me-2"></i>Subscription Status
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if user.has_active_subscription %}
+                            <div class="text-center">
+                                <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                                <h6 class="text-success">Premium Active</h6>
+                                <p class="text-muted mb-3">
+                                    Expires: {{ user.subscription_end_date|date:"M d, Y" }}
+                                </p>
+                                <a href="{% url 'payments:history' %}" class="btn btn-outline-success btn-sm">
+                                    View Details
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="text-center">
+                                <i class="fas fa-times-circle text-warning fa-3x mb-3"></i>
+                                <h6 class="text-warning">No Active Subscription</h6>
+                                <p class="text-muted mb-3">
+                                    Upgrade to access premium content
+                                </p>
+                                <a href="{% url 'payments:plans' %}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-crown me-1"></i>Get Premium
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            
+            <!-- Recent Content (for lecturers) -->
+            {% if user.role == 'lecturer' %}
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-file-alt me-2"></i>Recent Content
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_content %}
+                            {% for content in recent_content %}
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-file-alt text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">
+                                            <a href="{% url 'content:detail' content.id %}" class="text-decoration-none">
+                                                {{ content.title|truncatechars:30 }}
+                                            </a>
+                                        </h6>
+                                        <small class="text-muted">{{ content.views }} views</small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="text-center">
+                                <a href="{% url 'content:my_content' %}" class="btn btn-outline-primary btn-sm">
+                                    View All
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-3">
+                                <i class="fas fa-plus-circle text-muted fa-2x mb-2"></i>
+                                <p class="text-muted mb-2">No content uploaded yet</p>
+                                <a href="{% url 'content:create' %}" class="btn btn-primary btn-sm">
+                                    Upload First Content
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate stats numbers
+    const statsNumbers = document.querySelectorAll('.stats-number');
+    statsNumbers.forEach(stat => {
+        const target = parseInt(stat.textContent) || 0;
+        let current = 0;
+        const increment = target / 50;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            stat.textContent = Math.floor(current);
+        }, 30);
+    });
+    
+    // Load real-time data
+    loadDashboardData();
+    
+    function loadDashboardData() {
+        fetch('{% url "accounts_api:dashboard_data" %}')
+            .then(response => response.json())
+            .then(data => {
+                // Update stats if needed
+                updateDashboardStats(data);
+            })
+            .catch(error => console.error('Error loading dashboard data:', error));
+    }
+    
+    function updateDashboardStats(data) {
+        // Update any real-time stats here
+        if (data.stats) {
+            Object.keys(data.stats).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = data.stats[key];
+                }
+            });
+        }
+    }
+    
+    // Refresh data every 5 minutes
+    setInterval(loadDashboardData, 300000);
+});
+</script>
+{% endblock %}

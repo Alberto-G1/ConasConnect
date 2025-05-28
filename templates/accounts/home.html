@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load user_tags %}
+
+{% block title %}Home - Conas Connect{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="slide-in-left">Welcome to Conas Connect</h1>
+                <p class="lead slide-in-left">Your gateway to quality educational content and seamless learning experience.</p>
+                {% if not user.is_authenticated %}
+                    <div class="slide-in-left">
+                        <a href="{% url 'accounts:register_choice' %}" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>Get Started
+                        </a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="slide-in-left">
+                        <a href="{% url 'accounts:dashboard' %}" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a href="{% url 'content:list' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-book me-2"></i>Browse Content
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{% static 'images/hero-illustration.svg' %}" alt="Education" class="img-fluid slide-in-right" style="max-height: 400px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="fw-bold">Why Choose Conas Connect?</h2>
+                <p class="lead text-muted">Discover the features that make learning easier and more effective</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="text-primary mb-3">
+                            <i class="fas fa-graduation-cap fa-3x"></i>
+                        </div>
+                        <h5 class="card-title">Quality Content</h5>
+                        <p class="card-text">Access high-quality educational materials curated by experienced lecturers and educators.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="text-success mb-3">
+                            <i class="fas fa-users fa-3x"></i>
+                        </div>
+                        <h5 class="card-title">Community Learning</h5>
+                        <p class="card-text">Join a vibrant community of learners, share knowledge, and grow together.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <div class="text-warning mb-3">
+                            <i class="fas fa-crown fa-3x"></i>
+                        </div>
+                        <h5 class="card-title">Premium Access</h5>
+                        <p class="card-text">Unlock exclusive premium content with flexible subscription plans.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+{% if user.is_authenticated and user.role == 'president' %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-4">
+            <div class="col-12">
+                <h2 class="fw-bold">Platform Statistics</h2>
+            </div>
+        </div>
+        
+        <div class="row" id="stats-container">
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon text-primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stats-number text-primary" id="total-users">{{ total_users_count|default:0 }}</div>
+                    <div class="stats-label">Total Users</div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon text-success">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stats-number text-success" id="total-students">{{ students_count|default:0 }}</div>
+                    <div class="stats-label">Students</div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon text-warning">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stats-number text-warning" id="total-lecturers">{{ lecturers_count|default:0 }}</div>
+                    <div class="stats-label">Lecturers</div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon text-info">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stats-number text-info" id="total-content">{{ total_content_count|default:0 }}</div>
+                    <div class="stats-label">Content Items</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+{% if not user.is_authenticated %}
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-3">Ready to Start Learning?</h2>
+        <p class="lead mb-4">Join thousands of students and educators on Conas Connect today!</p>
+        <a href="{% url 'accounts:register_choice' %}" class="btn btn-light btn-lg">
+            <i class="fas fa-rocket me-2"></i>Join Now
+        </a>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if user.is_authenticated and user.role == 'president' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load real-time statistics
+    loadUserStats();
+    
+    function loadUserStats() {
+        fetch('{% url "accounts_api:user_stats" %}')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total-users').textContent = data.total_users;
+                document.getElementById('total-students').textContent = data.students;
+                document.getElementById('total-lecturers').textContent = data.lecturers;
+                
+                // Animate numbers
+                animateNumbers();
+            })
+            .catch(error => console.error('Error loading stats:', error));
+    }
+    
+    function animateNumbers() {
+        const numbers = document.querySelectorAll('.stats-number');
+        numbers.forEach(number => {
+            const target = parseInt(number.textContent);
+            let current = 0;
+            const increment = target / 50;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                number.textContent = Math.floor(current);
+            }, 30);
+        });
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load user_tags %}
+
+{% block title %}Profile - Conas Connect{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>Edit Profile
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Profile Picture Section -->
+                        <div class="text-center mb-4">
+                            <div class="position-relative d-inline-block">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" alt="Profile" class="profile-picture-large mb-3" id="profile-preview">
+                                {% else %}
+                                    <i class="fas fa-user-circle text-muted mb-3" style="font-size: 8rem;" id="profile-icon"></i>
+                                {% endif %}
+                                <label for="id_profile_picture" class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                            </div>
+                            <input type="file" class="d-none" id="id_profile_picture" name="profile_picture" accept="image/*">
+                            <div class="form-text">Click the camera icon to change your profile picture</div>
+                        </div>
+                        
+                        <!-- Personal Information -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_first_name" class="form-label">
+                                    <i class="fas fa-user me-1"></i>First Name
+                                </label>
+                                <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}" required>
+                                <div class="invalid-feedback">Please provide your first name.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_last_name" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Last Name
+                                </label>
+                                <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ user.last_name }}" required>
+                                <div class="invalid-feedback">Please provide your last name.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">
+                                <i class="fas fa-envelope me-1"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control" id="id_email" name="email" value="{{ user.email }}" required>
+                            <div class="invalid-feedback">Please provide a valid email address.</div>
+                        </div>
+                        
+                        <!-- Role-specific fields -->
+                        {% if user.role == 'student' %}
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-graduation-cap me-1"></i>Student Type
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="student_type" id="mubis" value="mubis" {% if user.student_type == 'mubis' %}checked{% endif %} disabled>
+                                            <label class="form-check-label" for="mubis">
+                                                <strong>MUBIS Student</strong>
+                                                <small class="d-block text-muted">Cannot be changed</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="student_type" id="non_mubis" value="non_mubis" {% if user.student_type == 'non_mubis' %}checked{% endif %} disabled>
+                                            <label class="form-check-label" for="non_mubis">
+                                                <strong>Non-MUBIS Student</strong>
+                                                <small class="d-block text-muted">Cannot be changed</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% if user.student_type == 'mubis' %}
+                                <div class="mb-3">
+                                    <label for="id_mubis_number" class="form-label">
+                                        <i class="fas fa-id-card me-1"></i>MUBIS Number
+                                    </label>
+                                    <input type="text" class="form-control" id="id_mubis_number" name="mubis_number" value="{{ user.mubis_number }}" readonly>
+                                    <div class="form-text">Your MUBIS number cannot be changed.</div>
+                                </div>
+                            {% endif %}
+                        {% elif user.role == 'lecturer' %}
+                            <div class="mb-3">
+                                <label for="id_department" class="form-label">
+                                    <i class="fas fa-building me-1"></i>Department/Institution
+                                </label>
+                                <input type="text" class="form-control" id="id_department" name="department" value="{{ user.department }}" required>
+                                <div class="invalid-feedback">Please provide your department.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_specialization" class="form-label">
+                                    <i class="fas fa-microscope me-1"></i>Specialization/Subject Area
+                                </label>
+                                <input type="text" class="form-control" id="id_specialization" name="specialization" value="{{ user.specialization }}" required>
+                                <div class="invalid-feedback">Please provide your specialization.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_bio" class="form-label">
+                                    <i class="fas fa-info-circle me-1"></i>Bio (Optional)
+                                </label>
+                                <textarea class="form-control" id="id_bio" name="bio" rows="4" placeholder="Tell us about yourself...">{{ user.bio }}</textarea>
+                                <div class="form-text">Share your background, experience, and interests.</div>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Account Information -->
+                        <hr class="my-4">
+                        <h5 class="mb-3">
+                            <i class="fas fa-info-circle me-2"></i>Account Information
+                        </h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                                <div class="form-text">Username cannot be changed.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Member Since</label>
+                                <input type="text" class="form-control" value="{{ user.date_joined|date:'M d, Y' }}" readonly>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            <div>
+                                <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                    <i class="fas fa-key me-2"></i>Change Password
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-key me-2"></i>Change Password
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="changePasswordForm" method="post" action="{% url 'accounts:change_password' %}">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="old_password" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="old_password" name="old_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password1" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="new_password1" name="new_password1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password2" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="new_password2" name="new_password2" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-key me-2"></i>Change Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile picture preview
+    const profilePicture = document.getElementById('id_profile_picture');
+    const profilePreview = document.getElementById('profile-preview');
+    const profileIcon = document.getElementById('profile-icon');
+    
+    profilePicture.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (profilePreview) {
+                    profilePreview.src = e.target.result;
+                } else if (profileIcon) {
+                    // Replace icon with image
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'profile-picture-large mb-3';
+                    img.id = 'profile-preview';
+                    profileIcon.parentNode.replaceChild(img, profileIcon);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Password change form validation
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const newPassword1 = document.getElementById('new_password1');
+    const newPassword2 = document.getElementById('new_password2');
+    
+    newPassword2.addEventListener('input', function() {
+        if (newPassword1.value !== newPassword2.value) {
+            newPassword2.setCustomValidity('Passwords do not match');
+        } else {
+            newPassword2.setCustomValidity('');
+        }
+    });
+    
+    changePasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Password changed successfully!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+                changePasswordForm.reset();
+            } else {
+                showAlert(data.error || 'Error changing password', 'danger');
+            }
+        })
+        .catch(error => {
+            showAlert('Network error occurred', 'danger');
+        });
+    });
+});
+</script>
+{% endblock %}
